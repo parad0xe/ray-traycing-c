@@ -173,11 +173,11 @@ static int	_raytrace_step(Environment *environment, Circle *circle, int x, int y
 		if (circle->light.visible && intensity > pixel_state->intensity)
 		{
 			pixel_state->intensity = intensity;
-			pixel_state->color = luminosity(circle->light.color, intensity);
+			pixel_state->color = brightness(circle->light.color, intensity);
 		}
 	}
 	else
-		pixel_state->color = luminosity(pixel_state->color, intensity);
+		pixel_state->color = brightness(pixel_state->color, intensity);
 
 	if (distance >= circle->r + CIRCLE_BORDER_PADDING && _raytrace_check_next_point_is_reachable(environment, x, y, next_x, next_y) == 0)
 		return -1;
