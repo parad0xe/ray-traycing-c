@@ -1,44 +1,44 @@
 #ifndef H_RAYTRAYCING_TYPES
 #define H_RAYTRAYCING_TYPES
 
-typedef struct	Light {
+typedef enum	TEXTURE_TYPE
+{
+	TEXTURE_TYPE_DYNAMIC,
+	TEXTURE_TYPE_FILLED
+} TEXTURE_TYPE;
+
+typedef struct	Pixel
+{
+	TEXTURE_TYPE texture_type;
+	double intensity;
+	uint32_t color;
+	_Bool is_fill;
+} Pixel;
+
+typedef struct	Environment {
+	Pixel *state;
+} Environment;
+
+typedef struct	Light
+{
 	double intensity;
 	_Bool active;
-	_Bool visible;
 	uint32_t color;
 	double theta; // radians
 	double fov; // radians
 } Light;
 
-typedef struct	PixelState {
-	signed char visibility;
-	double intensity;
-	_Bool is_light_source;
-	_Bool fill;
-	uint32_t color;
-} PixelState;
-
-typedef struct	Environment {
-	PixelState *state;
-} Environment;
-
-typedef struct	Circle {
+typedef struct	Circle
+{
 	int x, y, r;
+	int vx, vy;
 	uint32_t color;
-	signed char visibility;
+	TEXTURE_TYPE texture_type;
 	Light light;
 } Circle;
 
-typedef struct	MoveEvent {
-	_Bool left;
-	_Bool right;
-	_Bool up;
-	_Bool down;
-} MoveEvent;
-
 typedef struct	Player {
 	Circle circle;
-	MoveEvent moves;
 } Player;
 
 #endif

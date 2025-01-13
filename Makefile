@@ -1,14 +1,18 @@
-BASEDIR = src/
+BASE_DIR = src/
+INCLUDE_DIR = includes/
 
 CC=gcc
-CFLAGS=-Wall -Wextra
+CFLAGS=-Wall -Wextra -Ofast
 LDFLAGS=`sdl2-config --cflags --libs` -lm
-I=-I includes/
+I=-I $(INCLUDE_DIR)
 EXECUTABLE=main
 
-SOURCES = $(BASEDIR)main.c \
-	$(BASEDIR)utils.c \
-	$(BASEDIR)environment.c
+SOURCES = $(BASE_DIR)main.c \
+	$(BASE_DIR)utils.c \
+	$(BASE_DIR)environment.c
+
+HEADERS = $(INCLUDE_DIR)types.h \
+	$(INCLUDE_DIR)constants.h
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -25,10 +29,10 @@ main : $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -f $(BASEDIR)*.o $(EXECUTABLE)
+	rm -f $(BASE_DIR)*.o $(EXECUTABLE)
 	@echo "Cleaning.. done"
 
-%.o : %.c
+%.o : %.c $(HEADERS)
 	$(CC) $(I) -o $@ -c $< $(CFLAGS) $(LDFLAGS)
 	@echo "Compiling ($<).. ok"
 	
